@@ -11,7 +11,7 @@ export default function Index() {
 
   const handleLogin = () => {
     if (email === 'sebas' && password === '123456') {
-      router.push('/../components/NavigationBar');
+      router.push('../components/NavigationBar');
     } else {
       alert('Credenciales incorrectas');
     }
