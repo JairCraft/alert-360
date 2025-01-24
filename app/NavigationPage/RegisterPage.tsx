@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { StackNavigationProp } from '@react-navigation/stack';
-
+import registerUser from '../auth/registerUser'
+import { router } from 'expo-router';
 
 type FieldName = 'name' | 'email' | 'phone' | 'password';
 
@@ -88,13 +88,13 @@ const RegisterForm: React.FC = () => {
         {errors.password && <Text style={styles.error}>{errors.password}</Text>}
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={() => alert('Mensaje: Agregar Usuario')}>
+      <TouchableOpacity style={styles.button} onPress={() => { registerUser(formData.name, formData.email, formData.password, formData.phone) }}>
         <Text style={styles.buttonText}>Registrarse</Text>
       </TouchableOpacity>
 
       <View style={styles.footerContainer}>
         <Text style={styles.footerText}>¿Ya tienes cuenta?</Text>
-        <TouchableOpacity onPress={() => {/*navigation.navigate('LoginPage')*/ }}>
+        <TouchableOpacity onPress={() => { router.push('/') }}>
           <Text style={styles.loginText}> Inicia sesión</Text>
         </TouchableOpacity>
       </View>
