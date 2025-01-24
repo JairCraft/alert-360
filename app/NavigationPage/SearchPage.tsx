@@ -77,7 +77,7 @@ const SearchPage = () => {
             onPress={centerMapOnLocation} // Centrar el mapa sin pedir la ubicación nuevamente
           >
             <Image
-              source={require('../Icons/localizacion.png')}
+              source={require('../../Icons/localizacion.png')}
               style={styles.locationIcon}
             />
           </TouchableOpacity>
