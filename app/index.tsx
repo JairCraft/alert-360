@@ -9,6 +9,14 @@ export default function Index() {
   const [password, setPassword] = useState('');
   const [checked, setChecked] = useState(false);
 
+  const handleLogin = () => {
+    if (email === 'sebas' && password === '123') {
+      router.push('../components/NavigationBar');
+    } else {
+      alert('Credenciales incorrectas');
+    }
+  };
+
   return (
     <LinearGradient colors={['#00a9b2', '#440b61']} style={styles.container}>
       {/* Logo */}
