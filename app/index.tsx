@@ -2,20 +2,13 @@ import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import { View, TextInput, TouchableOpacity, StyleSheet, Image, Text } from "react-native";
-
+import loginUser from "./auth/loginUser";
 
 export default function Index() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [checked, setChecked] = useState(false);
 
-  const handleLogin = () => {
-    if (email === 'sebas' && password === '123456') {
-      router.push('../components/NavigationBar');
-    } else {
-      alert('Credenciales incorrectas');
-    }
-  };
   return (
     <LinearGradient colors={['#00a9b2', '#440b61']} style={styles.container}>
       {/* Logo */}
@@ -55,14 +48,14 @@ export default function Index() {
       </View>
 
       {/* Botón */}
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+      <TouchableOpacity style={styles.button} onPress={() => { loginUser(email, password) }} >
         <Text style={styles.buttonText}>Sign In</Text>
       </TouchableOpacity>
 
       {/* Texto inferior */}
       <View style={styles.footerContainer}>
         <Text style={styles.footerText}>¿No tienes cuenta?</Text>
-        <TouchableOpacity onPress={() => {/*navigation.navigate('RegisterForm')*/ }}>
+        <TouchableOpacity onPress={() => { router.push('/NavigationPage/RegisterPage') }}>
           <Text style={styles.registerText}> Regístrate</Text>
         </TouchableOpacity>
       </View>
