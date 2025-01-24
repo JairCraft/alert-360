@@ -56,7 +56,8 @@ export default function Index() {
       </View>
 
       {/* Botón */}
-      <TouchableOpacity style={styles.button} onPress={() => { loginUser(email, password) }} >
+      {/*<TouchableOpacity style={styles.button} onPress={() => { loginUser(email, password) }} >*/}
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Sign In</Text>
       </TouchableOpacity>
 
