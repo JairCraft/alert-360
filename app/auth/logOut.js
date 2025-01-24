@@ -6,3 +6,4 @@ export const logoutUser = () => {
     user.signOut();
   }
 };
+
