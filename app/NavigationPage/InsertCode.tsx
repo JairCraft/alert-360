@@ -1,7 +1,7 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React, { useState } from "react";
-import { View, TextInput, TouchableOpacity, StyleSheet, Image, Text } from "react-native";
+import { View, TextInput, TouchableOpacity, StyleSheet, Image, Text, Alert } from "react-native";
 
 export default function VerifyEmailPage() {
   const [email, setEmail] = useState('');
@@ -9,7 +9,16 @@ export default function VerifyEmailPage() {
 
   const handleVerifyCode = () => {
     if (code === '123456') { // Aquí debes poner la lógica para validar el código que se envió al correo
-      router.push('/components/NavigationBar'); // Redirige a la página de restablecer contraseña
+      Alert.alert(
+            '¡Éxito!',
+            'Código verificado.',
+            [
+              {
+                text: 'OK',
+                onPress: () => router.push('/NavigationPage/NewPasswordPage') 
+              },
+            ]
+          );
     } else {
       alert('Código incorrecto');
     }
