@@ -23,7 +23,7 @@ export default function Index() {
       <Image source={require('../Icons/logo.png')} style={styles.logo} />
 
 
-      <Text style={styles.title}>Bienvenido! Jair wa here</Text>
+      <Text style={styles.title}>Bienvenido!</Text>
 
       {/* Campos de entrada */}
       <View style={styles.inputContainer}>
@@ -42,9 +42,11 @@ export default function Index() {
           value={password}
           onChangeText={setPassword}
         />
-        <TouchableOpacity onPress={() => alert('Funcionalidad de recuperar contraseña')}>
+
+        <TouchableOpacity onPress={() => { router.push('/NavigationPage/RecoverPassword') }} style={styles.forgotPasswordContainer}>
           <Text style={styles.forgotPasswordText}>¿Olvidaste tu contraseña?</Text>
         </TouchableOpacity>
+        
       </View>
 
       {/* Checkbox y texto */}
@@ -158,4 +160,7 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     marginLeft: 5, // Espacio entre los textos
   },
+  forgotPasswordContainer: {
+    alignSelf: 'flex-end',  // Alinea el texto a la derecha
+  }
 });

@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   },
   locationButton: {
     position: 'absolute',
-    top: 630, // Ajusta la posición vertical
+    top: 600, // Ajusta la posición vertical
     right: 20, // Ajusta la posición horizontal
     backgroundColor: 'rgba(0, 0, 0, 0.6)', // Fondo semitransparente
     borderRadius: 50,
