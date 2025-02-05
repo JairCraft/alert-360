@@ -66,7 +66,8 @@ export default function Index() {
       {/* Texto inferior */}
       <View style={styles.footerContainer}>
         <Text style={styles.footerText}>¿No tienes cuenta?</Text>
-        <TouchableOpacity onPress={() => { router.push('/NavigationPage/RegisterPage') }}>
+        {/*<TouchableOpacity onPress={() => { router.push('/NavigationPage/RegisterPage') }}>*/}
+          <TouchableOpacity onPress={() => { router.push('/NavigationPage/AccelerometerSensor') }}>
           <Text style={styles.registerText}> Regístrate</Text>
         </TouchableOpacity>
       </View>
