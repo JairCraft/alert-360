@@ -2,7 +2,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import { View, TextInput, TouchableOpacity, StyleSheet, Image, Text } from "react-native";
-import loginUser from "./auth/loginUser";
+import { loginUser } from "./auth/auth-module";
 
 export default function Index() {
   const [email, setEmail] = useState('');
@@ -10,7 +10,7 @@ export default function Index() {
   const [checked, setChecked] = useState(false);
 
   const handleLogin = () => {
-    if (email === 'sebas' && password === '123') {
+    if (loginUser(email, password)) {
       router.push('../components/NavigationBar');
     } else {
       alert('Credenciales incorrectas');
@@ -46,7 +46,7 @@ export default function Index() {
         <TouchableOpacity onPress={() => { router.push('/NavigationPage/RecoverPassword') }} style={styles.forgotPasswordContainer}>
           <Text style={styles.forgotPasswordText}>¿Olvidaste tu contraseña?</Text>
         </TouchableOpacity>
-        
+
       </View>
 
       {/* Checkbox y texto */}
@@ -67,7 +67,7 @@ export default function Index() {
       <View style={styles.footerContainer}>
         <Text style={styles.footerText}>¿No tienes cuenta?</Text>
         {/*<TouchableOpacity onPress={() => { router.push('/NavigationPage/RegisterPage') }}>*/}
-          <TouchableOpacity onPress={() => { router.push('/NavigationPage/AccelerometerSensor') }}>
+        <TouchableOpacity onPress={() => { router.push('/NavigationPage/AccelerometerSensor') }}>
           <Text style={styles.registerText}> Regístrate</Text>
         </TouchableOpacity>
       </View>
