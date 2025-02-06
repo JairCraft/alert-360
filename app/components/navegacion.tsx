@@ -7,7 +7,6 @@ import SearchPage from '../NavigationPage/SearchPage';
 import ProfilePage from '../NavigationPage/ProfilePage';
 import CarPage from '../NavigationPage/CarPage';
 import NotificationPage from '../NavigationPage/NotificationPage';
-import WeatherInfo from '../components/apiClima'; // Asegúrate de que la ruta sea correcta
 
 // Crear el Tab Navigator
 const Tab = createBottomTabNavigator();
@@ -33,7 +32,6 @@ const NavigationBar: React.FC = () => {
       screenOptions={({ route }) => ({
         headerShown: true, // Mostrar la barra superior
         headerLeft: () => <BackButton />, // Agregar el botón de volver
-        headerRight: () => <WeatherInfo />, // Agregar el componente de clima a la derecha
         headerStyle: {
           backgroundColor: '#00a9b2', // Color de la barra superior
           elevation: 0,
