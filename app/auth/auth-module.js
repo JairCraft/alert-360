@@ -1,6 +1,6 @@
 export const loginUser = async (email, password) => {
   console.log("hola");
-  const response = await fetch("http://44.202.165.154" + "/auth/login", {
+  const response = await fetch(process.env.API_ENDPOINT + "/auth/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
