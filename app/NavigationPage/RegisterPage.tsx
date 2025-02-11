@@ -2,6 +2,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import { View, TextInput, TouchableOpacity, StyleSheet, Image, Text, SafeAreaView } from "react-native";
+import { registerUser } from "../auth/auth-module";
 
 export default function RegisterPage() {
   const [name, setName] = useState('');
@@ -9,12 +10,12 @@ export default function RegisterPage() {
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
 
-  const handleRegister = () => {
-    if (name && email && password && phone) {
-      alert('Usuario registrado con éxito');
-      router.push('../components/NavigationBar'); // O la página que necesites
+  const handleRegister = async () => {
+    const { res, value } = await registerUser(name, email, password, phone)
+    if (res) {
+      router.push('/NavigationPage/InsertCode'); // O la página que necesites
     } else {
-      alert('Por favor completa todos los campos');
+      alert(value.name);
     }
   };
 
@@ -60,7 +61,7 @@ export default function RegisterPage() {
         </View>
 
         {/* Botón */}
-        <TouchableOpacity style={styles.button} onPress={() => alert('Solo es un Mensaje: Usuario registrado')}>
+        <TouchableOpacity style={styles.button} onPress={() => handleRegister()}>
           <Text style={styles.buttonText}>Registrarse</Text>
         </TouchableOpacity>
 

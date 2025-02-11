@@ -9,10 +9,10 @@ export default function Index() {
   const [password, setPassword] = useState('');
   const [checked, setChecked] = useState(false);
 
-  const handleLogin = () => {
-    const val = loginUser(email, password)
+  const handleLogin = async () => {
 
-    if (true) {
+
+    if (await loginUser(email, password)) {
       router.push('../components/NavigationBar');
     } else {
       alert('Credenciales incorrectas');
@@ -47,10 +47,6 @@ export default function Index() {
           autoCapitalize="none"
         />
 
-        <TouchableOpacity onPress={() => { router.push('/NavigationPage/RecoverPassword') }} style={styles.forgotPasswordContainer}>
-          <Text style={styles.forgotPasswordText}>¿Olvidaste tu contraseña?</Text>
-        </TouchableOpacity>
-
       </View>
 
       {/* Checkbox y texto */}
@@ -71,7 +67,7 @@ export default function Index() {
       <View style={styles.footerContainer}>
         <Text style={styles.footerText}>¿No tienes cuenta?</Text>
         {/*<TouchableOpacity onPress={() => { router.push('/NavigationPage/RegisterPage') }}>*/}
-        <TouchableOpacity onPress={() => { router.push('/NavigationPage/AccelerometerSensor') }}>
+        <TouchableOpacity onPress={() => { router.push('/NavigationPage/RegisterPage') }}>
           <Text style={styles.registerText}> Regístrate</Text>
         </TouchableOpacity>
       </View>

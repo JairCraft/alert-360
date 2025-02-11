@@ -2,23 +2,24 @@ import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import { View, TextInput, TouchableOpacity, StyleSheet, Image, Text, Alert } from "react-native";
+import { confirmEmail } from "../auth/auth-module";
 
 export default function VerifyEmailPage() {
-  const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
 
-  const handleVerifyCode = () => {
-    if (code === '123456') { // Aquí debes poner la lógica para validar el código que se envió al correo
+  const handleVerifyCode = async () => {
+
+    if (await confirmEmail(code)) { // Aquí debes poner la lógica para validar el código que se envió al correo
       Alert.alert(
-            '¡Éxito!',
-            'Código verificado.',
-            [
-              {
-                text: 'OK',
-                onPress: () => router.push('/NavigationPage/NewPasswordPage') 
-              },
-            ]
-          );
+        '¡Éxito!',
+        'Código verificado.',
+        [
+          {
+            text: 'OK',
+            onPress: () => router.push('/components/NavigationBar')
+          },
+        ]
+      );
     } else {
       alert('Código incorrecto');
     }
@@ -30,9 +31,9 @@ export default function VerifyEmailPage() {
       <Image source={require('../../Icons/logo.png')} style={styles.logo} />
 
       <Text style={styles.title}>Verificación por correo</Text>
-      <Text style={styles.MessageRecove}>Hemos enviado un número de verificación a tu correo. 
-            Introduce el código en el recuadro inferior
-        </Text>
+      <Text style={styles.MessageRecove}>Hemos enviado un número de verificación a tu correo.
+        Introduce el código en el recuadro inferior
+      </Text>
 
       {/* Contenedor para el icono y el campo de código */}
       <View style={styles.inputWithIconContainer}>
@@ -48,17 +49,10 @@ export default function VerifyEmailPage() {
       </View>
 
       {/* Botón de verificación */}
-      <TouchableOpacity style={styles.button} onPress={handleVerifyCode}>
+      <TouchableOpacity style={styles.button} onPress={() => handleVerifyCode()}>
         <Text style={styles.buttonText}>Verificar Código</Text>
       </TouchableOpacity>
 
-      {/* Texto inferior */}
-      <View style={styles.footerContainer}>
-        <Text style={styles.footerText}>¿No has recibido el código?</Text>
-        <TouchableOpacity onPress={() => alert('Funcionalidad de reenviar codigo')}>
-          <Text style={styles.registerText}>Reenviar código</Text>
-        </TouchableOpacity>
-      </View>
     </LinearGradient>
   );
 }
