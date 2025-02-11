@@ -51,7 +51,6 @@ const WeatherInfo = () => {
         });
 
         if (reverseResult && reverseResult.city) {
-          console.log("Ciudad obtenida:", reverseResult.city);
           setCity(reverseResult.city);
         } else {
           console.log("No se pudo determinar la ciudad, se usará la predeterminada.");
@@ -74,7 +73,7 @@ const WeatherInfo = () => {
 
         // Construir la URL con la ciudad obtenida o por defecto
         const url = `https://www.meteosource.com/api/v1/free/point?place_id=${city}&sections=all&timezone=UTC&language=en&units=metric&key=${API_KEY}`;
-        console.log('Fetching URL:', url);
+
 
         const response = await fetch(url);
         if (!response.ok) {
@@ -82,7 +81,6 @@ const WeatherInfo = () => {
         }
 
         const data: WeatherData = await response.json();
-        console.log('Datos de la API:', data);
 
         if (data.error) {
           throw new Error(data.error);

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "943921982787",
+    "project_id": "alert360-c580b",
+    "storage_bucket": "alert360-c580b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:943921982787:android:b5a24cc1fa588d2a9f93f6",
+        "android_client_info": {
+          "package_name": "com.moviles.alert360"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCETRcJ0zPpmOo2l7av30R4CkdsCx9wgj4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -10,7 +10,9 @@ export default function Index() {
   const [checked, setChecked] = useState(false);
 
   const handleLogin = () => {
-    if (loginUser(email, password)) {
+    const val = loginUser(email, password)
+
+    if (true) {
       router.push('../components/NavigationBar');
     } else {
       alert('Credenciales incorrectas');
@@ -33,6 +35,7 @@ export default function Index() {
           placeholderTextColor="#fff"
           value={email}
           onChangeText={setEmail}
+          autoCapitalize="none"
         />
         <TextInput
           style={styles.input}
@@ -41,6 +44,7 @@ export default function Index() {
           secureTextEntry
           value={password}
           onChangeText={setPassword}
+          autoCapitalize="none"
         />
 
         <TouchableOpacity onPress={() => { router.push('/NavigationPage/RecoverPassword') }} style={styles.forgotPasswordContainer}>
