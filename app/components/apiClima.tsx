@@ -98,9 +98,8 @@ const WeatherInfo = () => {
     };
 
     fetchWeather();
-  }, [city]); // Se ejecuta cuando cambia la ciudad
+  }, [city]);
 
-  // Mapeo del ícono a una URL de imagen, si existe
   const mappedIconUrl = icon ? iconMapping[icon] || null : null;
 
   return (

@@ -1,8 +1,9 @@
+// filepath: /c:/Users/jairg/OneDrive/Documentos/node-projects/alert-360/app/NavigationPage/RegisterPage.tsx
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import { View, TextInput, TouchableOpacity, StyleSheet, Image, Text, SafeAreaView } from "react-native";
-import { registerUser } from "../auth/auth-module";
+import { registerUser, loginUser } from "../auth/auth-module";
 
 export default function RegisterPage() {
   const [name, setName] = useState('');
@@ -11,9 +12,9 @@ export default function RegisterPage() {
   const [phone, setPhone] = useState('');
 
   const handleRegister = async () => {
-    const { res, value } = await registerUser(name, email, password, phone)
+    const { res, value } = await registerUser(name, email, password, phone);
     if (res) {
-      router.push('/NavigationPage/InsertCode'); // O la página que necesites
+      router.replace("/NavigationPage/InsertCode")
     } else {
       alert(value.name);
     }

@@ -2,24 +2,37 @@ import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import { View, TextInput, TouchableOpacity, StyleSheet, Image, Text, Alert } from "react-native";
-import { confirmEmail } from "../auth/auth-module";
+import { confirmEmail, loginUser } from "../auth/auth-module";
+import {
+  getEmail,
+  getPassword,
+} from "../auth/storage";
+import { CommonActions, NavigationProp, useNavigation } from "@react-navigation/native";
+
+type RootStackParamList = {
+  NavigationBar: undefined;
+  RegisterPage: undefined;
+  Profile: undefined;
+};
 
 export default function VerifyEmailPage() {
   const [code, setCode] = useState('');
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const handleVerifyCode = async () => {
 
     if (await confirmEmail(code)) { // Aquí debes poner la lógica para validar el código que se envió al correo
-      Alert.alert(
-        '¡Éxito!',
-        'Código verificado.',
-        [
-          {
-            text: 'OK',
-            onPress: () => router.push('/components/NavigationBar')
-          },
-        ]
-      );
+      const loginSuccess = await loginUser(await getEmail(), await getPassword());
+      if (loginSuccess) {
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: 'NavigationBar' }],
+          })
+        );// Navigate to the desired page after successful login
+      } else {
+        alert('Login failed after registration');
+      }
     } else {
       alert('Código incorrecto');
     }
