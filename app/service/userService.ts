@@ -15,3 +15,12 @@ export const getUser = async () => {
   const userData: { email: string, id: number, name: string, password: string, phone: string, registry_date: string } = await response.json()
   return { ...userData };
 };
+
+export const getProfileByUser = async (userName: string) => {
+  return await fetch(
+    "https://avatar.iran.liara.run/public/boy?username=" + userName,
+    {
+      method: "GET"
+    }
+  );
+}

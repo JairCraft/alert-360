@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { PermissionsAndroid } from 'react-native';
-import { getUser } from "../service/userService";
+import { getUser, getProfileByUser } from "../service/userService";
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Welcome from "../components/Welcome";
+import AlertButton from "../components/AlertButton";
 
 PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
 
 export default function ProfilePage() {
   const [user, setUser] = useState({ email: "", id: 0, name: "", phone: "" });
+  const [img, setImg] = useState("")
 
   useEffect(() => {
     async function fetchUser() {
@@ -22,22 +25,35 @@ export default function ProfilePage() {
     fetchUser();
   }, []);
 
-  return (
-    <SafeAreaView>
+  useEffect(() => {
+    async function fetchAvatar() {
+      try {
+        const picture = await getProfileByUser(user.name.split(' ')[0]);
 
-      <View>
-        <Text>ProfilePage</Text>
-        {user ? (
-          <View>
-            <Text>{user.name}</Text>
-            <Text>{user.email}</Text>
-            <Text>{user.phone}</Text>
-            <Text>{user.name}</Text>
-          </View>
-        ) : (
-          <Text>Loading...</Text>
-        )}
-      </View>
-    </SafeAreaView>
+        setImg(picture.url);
+        console.log(picture.url);
+
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+      }
+    }
+
+    fetchAvatar()
+  }, [])
+
+  return (
+    <SafeAreaView style={styles.safeArea}>
+      {user ? (
+        <Welcome img={img} user={user} />
+      ) : (
+        <Text>Loading...</Text>
+      )
+      }
+      <AlertButton />
+    </SafeAreaView >
   );
 }
+
+const styles = StyleSheet.create({
+  safeArea: { width: '100%', flex: 1, height: '100%' },
+});
