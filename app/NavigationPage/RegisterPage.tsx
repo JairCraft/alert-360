@@ -4,17 +4,28 @@ import { router } from "expo-router";
 import React, { useState } from "react";
 import { View, TextInput, TouchableOpacity, StyleSheet, Image, Text, SafeAreaView } from "react-native";
 import { registerUser, loginUser } from "../auth/auth-module";
+import { CommonActions, NavigationProp, useNavigation } from "@react-navigation/native";
+
+type RootStackParamList = {
+  InsertCode: undefined;
+};
 
 export default function RegisterPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const handleRegister = async () => {
     const { res, value } = await registerUser(name, email, password, phone);
     if (res) {
-      router.replace("/NavigationPage/InsertCode")
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: 'InsertCode' }],
+        })
+      );
     } else {
       alert(value.name);
     }

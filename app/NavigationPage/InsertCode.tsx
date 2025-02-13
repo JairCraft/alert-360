@@ -1,5 +1,4 @@
 import { LinearGradient } from "expo-linear-gradient";
-import { router } from "expo-router";
 import React, { useState } from "react";
 import { View, TextInput, TouchableOpacity, StyleSheet, Image, Text, Alert } from "react-native";
 import { confirmEmail, loginUser } from "../auth/auth-module";
@@ -11,8 +10,6 @@ import { CommonActions, NavigationProp, useNavigation } from "@react-navigation/
 
 type RootStackParamList = {
   NavigationBar: undefined;
-  RegisterPage: undefined;
-  Profile: undefined;
 };
 
 export default function VerifyEmailPage() {
@@ -29,7 +26,7 @@ export default function VerifyEmailPage() {
             index: 0,
             routes: [{ name: 'NavigationBar' }],
           })
-        );// Navigate to the desired page after successful login
+        );
       } else {
         alert('Login failed after registration');
       }
