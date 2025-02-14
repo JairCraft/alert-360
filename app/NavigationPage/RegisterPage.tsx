@@ -1,111 +1,99 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import registerUser from '../auth/registerUser'
-import { router } from 'expo-router';
+// filepath: /c:/Users/jairg/OneDrive/Documentos/node-projects/alert-360/app/NavigationPage/RegisterPage.tsx
+import { LinearGradient } from "expo-linear-gradient";
+import { router } from "expo-router";
+import React, { useState } from "react";
+import { View, TextInput, TouchableOpacity, StyleSheet, Image, Text, SafeAreaView } from "react-native";
+import { registerUser, loginUser } from "../auth/auth-module";
+import { CommonActions, NavigationProp, useNavigation } from "@react-navigation/native";
 
-type FieldName = 'name' | 'email' | 'phone' | 'password';
+type RootStackParamList = {
+  InsertCode: undefined;
+};
 
-const RegisterForm: React.FC = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    password: '',
-  });
+export default function RegisterPage() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [phone, setPhone] = useState('');
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-  const [errors, setErrors] = useState<Record<FieldName, string | null>>({} as Record<FieldName, string | null>);
-
-  const handleInputChange = (name: FieldName, value: string) => {
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const validateForm = () => {
-    const newErrors: Record<FieldName, string | null> = {} as Record<FieldName, string | null>;
-
-    if (!formData.name.trim()) {
-      newErrors.name = 'El nombre es obligatorio.';
+  const handleRegister = async () => {
+    const { res, value } = await registerUser(name, email, password, phone);
+    if (res) {
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: 'InsertCode' }],
+        })
+      );
+    } else {
+      alert(value.name);
     }
-    if (!formData.email.trim() || !/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Por favor ingresa un correo válido.';
-    }
-    if (!formData.phone.trim() || !/^\d{10}$/.test(formData.phone)) {
-      newErrors.phone = 'Por favor ingresa un número de teléfono válido (10 dígitos).';
-    }
-    if (formData.password.length < 6) {
-      newErrors.password = 'La contraseña debe tener al menos 6 caracteres.';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
   };
 
   return (
-    <LinearGradient colors={['#00a9b2', '#440b61']} style={styles.container}>
-      {/* Logo */}
-      <Image source={require('../../Icons/logo.png')} style={styles.logo} />
+    <SafeAreaView style={styles.container}>
+      <LinearGradient colors={['#00a9b2', '#440b61']} style={styles.gradient}>
+        {/* Logo */}
+        <Image source={require('../../Icons/logo.png')} style={styles.logo} />
 
-      <Text style={styles.title}>Registro de Usuario</Text>
+        <Text style={styles.title}>¡Regístrate!</Text>
 
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Nombre completo"
-          placeholderTextColor="#fff"
-          value={formData.name}
-          onChangeText={(value) => handleInputChange('name', value)}
-        />
-        {errors.name && <Text style={styles.error}>{errors.name}</Text>}
+        {/* Campos de entrada */}
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Nombre"
+            placeholderTextColor="#fff"
+            value={name}
+            onChangeText={setName}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Correo"
+            placeholderTextColor="#fff"
+            value={email}
+            onChangeText={setEmail}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Contraseña"
+            placeholderTextColor="#fff"
+            secureTextEntry
+            value={password}
+            onChangeText={setPassword}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Teléfono"
+            placeholderTextColor="#fff"
+            value={phone}
+            onChangeText={setPhone}
+          />
+        </View>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Correo electrónico"
-          placeholderTextColor="#fff"
-          value={formData.email}
-          onChangeText={(value) => handleInputChange('email', value)}
-          keyboardType="email-address"
-        />
-        {errors.email && <Text style={styles.error}>{errors.email}</Text>}
-
-        <TextInput
-          style={styles.input}
-          placeholder="Teléfono"
-          placeholderTextColor="#fff"
-          value={formData.phone}
-          onChangeText={(value) => handleInputChange('phone', value)}
-          keyboardType="phone-pad"
-        />
-        {errors.phone && <Text style={styles.error}>{errors.phone}</Text>}
-
-        <TextInput
-          style={styles.input}
-          placeholder="Contraseña"
-          placeholderTextColor="#fff"
-          value={formData.password}
-          onChangeText={(value) => handleInputChange('password', value)}
-          secureTextEntry
-        />
-        {errors.password && <Text style={styles.error}>{errors.password}</Text>}
-      </View>
-
-      <TouchableOpacity style={styles.button} onPress={() => { registerUser(formData.name, formData.email, formData.password, formData.phone) }}>
-        <Text style={styles.buttonText}>Registrarse</Text>
-      </TouchableOpacity>
-
-      <View style={styles.footerContainer}>
-        <Text style={styles.footerText}>¿Ya tienes cuenta?</Text>
-        <TouchableOpacity onPress={() => { router.push('/') }}>
-          <Text style={styles.loginText}> Inicia sesión</Text>
+        {/* Botón */}
+        <TouchableOpacity style={styles.button} onPress={() => handleRegister()}>
+          <Text style={styles.buttonText}>Registrarse</Text>
         </TouchableOpacity>
-      </View>
-    </LinearGradient>
-  );
-};
 
-export default RegisterForm;
+        {/* Texto inferior */}
+        <View style={styles.footerContainer}>
+          <Text style={styles.footerText}>¿Ya tienes cuenta?</Text>
+          <TouchableOpacity onPress={() => { router.push('../') }}>
+            <Text style={styles.registerText}> Inicia sesión</Text>
+          </TouchableOpacity>
+        </View>
+      </LinearGradient>
+    </SafeAreaView>
+  );
+}
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  gradient: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -133,10 +121,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     paddingVertical: 5,
   },
-  error: {
-    color: 'red',
-    marginBottom: 10,
-  },
   button: {
     backgroundColor: '#fff',
     paddingVertical: 10,
@@ -151,13 +135,16 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginTop: 20,
+    marginBottom: 20, // Espacio extra para evitar que quede tapado
   },
   footerText: {
     color: '#fff',
     fontSize: 14,
   },
-  loginText: {
+  registerText: {
     color: '#fff',
     fontSize: 14,
     textDecorationLine: 'underline',
