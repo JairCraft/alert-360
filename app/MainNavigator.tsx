@@ -9,8 +9,8 @@ import LoginComponent from './NavigationPage/LoginComponent';
 import RegisterPage from './NavigationPage/RegisterPage';
 import SearchPage from './NavigationPage/SearchPage';
 import ProfilePage from './NavigationPage/ProfilePage';
-import CarPage from './NavigationPage/CarPage';
-import NotificationPage from './NavigationPage/NotificationPage';
+import CarPage from './NavigationPage/ConfigPage';
+import AlertPage from './NavigationPage/AlertPage';
 import InsertCode from './NavigationPage/InsertCode';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -47,10 +47,10 @@ const NavigationBar = () => {
                             icon = focused ? require('../Icons/busquedaActivo.png') : require('../Icons/busqueda.png');
                         } else if (route.name === 'Perfil') {
                             icon = focused ? require('../Icons/usuarioActivo.png') : require('../Icons/usuario.png');
-                        } else if (route.name === 'Car') {
-                            icon = focused ? require('../Icons/carrosActivo.png') : require('../Icons/carros.png');
-                        } else if (route.name === 'Notificaciones') {
-                            icon = focused ? require('../Icons/campanaActiva.png') : require('../Icons/campana.png');
+                        } else if (route.name === 'Configuración') {
+                            icon = focused ? require('../Icons/configuracionUserActivo.png') : require('../Icons/configuracionUser.png');
+                        } else if (route.name === 'Alerta') {
+                            icon = focused ? require('../Icons/advertenciaActivo.png') : require('../Icons/advertencia.png');
                         }
 
                         return (
@@ -82,9 +82,9 @@ const NavigationBar = () => {
                 })}
             >
                 <Tab.Screen name="Perfil" component={ProfilePage} />
-                <Tab.Screen name="Car" component={CarPage} />
                 <Tab.Screen name="Search" component={SearchPage} />
-                <Tab.Screen name="Notificaciones" component={NotificationPage} />
+                <Tab.Screen name="Alerta" component={AlertPage} />
+                <Tab.Screen name="Configuración" component={CarPage} />
             </Tab.Navigator>
         </SafeAreaView>
     );

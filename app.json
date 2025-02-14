@@ -46,7 +46,7 @@
       "eas": {
         "projectId": "3bfd4e55-65b7-483b-898d-72b10a50ba5b"
       },
-      "API_ENDPOINT": "http://192.168.100.3:3000"
+      "API_ENDPOINT": "http://192.168.100.82:3000"
     }
   }
 }
