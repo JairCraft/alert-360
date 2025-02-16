@@ -45,9 +45,6 @@ export const updateUser = async (name: string, phone:string, password:string) =>
       }),
     }
   );
-
   const res = response.status >= 200 && response.status < 300;
-  const value = await response.json();
-
-  return { res, value };
+  return { res};
 };

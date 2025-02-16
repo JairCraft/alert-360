@@ -45,19 +45,19 @@ export default function ProfileData() {
             alert("No se encontró el ID del usuario.");
             return;
         }
-
-        const { res, value } = await updateUser(name, phone, password);
-
+        const { res} = await updateUser(name, phone, password);
+        console.log(res)
         if (res) {
             alert("Datos actualizados correctamente.");
             navigation.dispatch(
                 CommonActions.reset({
                     index: 0,
-                    routes: [{ name: 'ProfilePage' }],
+                    routes: [{ name: 'NavigationBar' }],
+                    
                 })
             );
         } else {
-            alert(value.message || "Error al actualizar los datos.");
+            alert("Error al actualizar los datos.");
         }
     };
 
@@ -100,7 +100,7 @@ export default function ProfileData() {
                 />
             </View>
 
-            <TouchableOpacity style={styles.button} onPress={handleUpdate}>
+            <TouchableOpacity style={styles.button} onPress={()=>{handleUpdate()}}>
                 <Text style={styles.buttonText}>Actualizar</Text>
             </TouchableOpacity>
         </SafeAreaView>
