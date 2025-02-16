@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getUser } from "../service/userService";
 import { CommonActions, NavigationProp, useNavigation } from "@react-navigation/native";
-import { updateUser } from "../auth/auth-module";
+import { updateUser } from "../service/userService";
 
 type RootStackParamList = {
   ProfilePage: undefined;
@@ -46,7 +46,7 @@ export default function ProfileData() {
             return;
         }
 
-        const { res, value } = await updateUser(user.id, name, phone, password);
+        const { res, value } = await updateUser(name, phone, password);
 
         if (res) {
             alert("Datos actualizados correctamente.");

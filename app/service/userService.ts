@@ -1,4 +1,4 @@
-import { getEmail, getToken, storeId } from "../auth/storage";
+import { getEmail, getToken, storeId, getId } from "../auth/storage";
 import constants from "expo-constants";
 
 export const getUser = async () => {
@@ -27,7 +27,7 @@ export const getProfileByUser = async (userName: string) => {
 }
 
 
-export const updateUser = async (email:string, name: string, phone:string, password:string) => {
+export const updateUser = async (name: string, phone:string, password:string) => {
   const response = await fetch(
     (constants.expoConfig?.extra?.["API_ENDPOINT"] ?? "") + "/users",
     {
@@ -37,8 +37,9 @@ export const updateUser = async (email:string, name: string, phone:string, passw
         Authorization: "Bearer " + (await getToken()),
       },
       body: JSON.stringify({
+        id: parseInt(await getId() ?? "0"),
         name: name,
-        email: email,
+        email: await getEmail(),
         phone: phone,
         password: password,
       }),

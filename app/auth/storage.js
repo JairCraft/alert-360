@@ -16,7 +16,7 @@ export const storeToken = async (token) => {
 
 export const storeId = async (id) => {
   try {
-    await AsyncStorage.setItem(USER_ID, id);
+    await AsyncStorage.setItem(USER_ID, id.toString());
   } catch (error) {
     console.error("Error storing the token", error);
   }
@@ -78,5 +78,15 @@ export const removePassword = async () => {
     await AsyncStorage.removeItem(PASSWORD_KEY);
   } catch (error) {
     console.error("Error removing the password", error);
+  }
+};
+
+
+export const getId = async () => {
+  try {
+    return await AsyncStorage.getItem(USER_ID);
+  } catch (error) {
+    console.error("Error retrieving the token", error);
+    return null;
   }
 };

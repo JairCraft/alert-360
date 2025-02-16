@@ -70,25 +70,3 @@ export const confirmEmail = async (verificationCode) => {
   return res;
 };
 
-//*************UPDATE USER************** */
-export const updateUser = async (id, name, phone, password) => {
-  const response = await fetch(
-    constants.expoConfig.extra["API_ENDPOINT"] + "/auth/register",
-    {
-      method: "PUT", // O "PATCH" si solo actualizas algunos campos
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: name,
-        phone: phone,
-        password: password,
-      }),
-    }
-  );
-
-  const res = response.status >= 200 && response.status < 300;
-  const value = await response.json();
-
-  return { res, value };
-};
