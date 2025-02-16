@@ -1,4 +1,4 @@
-import { getEmail, getToken } from "../auth/storage";
+import { getEmail, getToken, storeId } from "../auth/storage";
 import constants from "expo-constants";
 
 export const getUser = async () => {
@@ -13,6 +13,7 @@ export const getUser = async () => {
     }
   );
   const userData: { email: string, id: number, name: string, password: string, phone: string, registry_date: string } = await response.json()
+  await storeId(userData.id)
   return { ...userData };
 };
 
