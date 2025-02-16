@@ -4,10 +4,19 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const TOKEN_KEY = "jwt_token";
 const EMAIL_KEY = "user_email";
 const PASSWORD_KEY = "user_password";
+const USER_ID = "user_id";
 
 export const storeToken = async (token) => {
   try {
     await AsyncStorage.setItem(TOKEN_KEY, token);
+  } catch (error) {
+    console.error("Error storing the token", error);
+  }
+};
+
+export const storeId = async (id) => {
+  try {
+    await AsyncStorage.setItem(USER_ID, id);
   } catch (error) {
     console.error("Error storing the token", error);
   }
