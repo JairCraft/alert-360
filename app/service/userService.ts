@@ -24,3 +24,28 @@ export const getProfileByUser = async (userName: string) => {
     }
   );
 }
+
+
+export const updateUser = async (email:string, name: string, phone:string, password:string) => {
+  const response = await fetch(
+    (constants.expoConfig?.extra?.["API_ENDPOINT"] ?? "") + "/users",
+    {
+      method: "PUT", // O "PATCH" si solo actualizas algunos campos
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + (await getToken()),
+      },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        phone: phone,
+        password: password,
+      }),
+    }
+  );
+
+  const res = response.status >= 200 && response.status < 300;
+  const value = await response.json();
+
+  return { res, value };
+};

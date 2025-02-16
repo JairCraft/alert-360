@@ -3,14 +3,26 @@ import { View, Text, TouchableOpacity, Switch, StyleSheet, Image } from 'react-n
 import { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 
+import { useNavigation, NavigationProp, CommonActions } from '@react-navigation/native';
+
+type RootStackParamList = {
+    NavigationBar: undefined;
+    RegisterPage: undefined;
+    Profile: undefined;
+    ProfileData: undefined;
+};
+
 const SettingsPage = () => {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  
 
+  
   return (
     <LinearGradient colors={['#00a9b2', '#440b61']} style={styles.container}>
       <Text style={styles.header}>Configuración</Text>
       
-      <TouchableOpacity style={styles.option}>
+      <TouchableOpacity style={styles.option} onPress={() => { navigation.navigate("ProfileData") }}>
         <Image source={require('../../Icons/usuario.png')} style={styles.icon} />
         <Text style={styles.optionText}>Editar perfil</Text>
       </TouchableOpacity>

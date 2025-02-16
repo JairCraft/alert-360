@@ -14,6 +14,7 @@ import AlertPage from './NavigationPage/AlertPage';
 import InsertCode from './NavigationPage/InsertCode';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import ProfileData from './NavigationPage/ProfileData'
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -97,6 +98,7 @@ const MainNavigator = () => {
             <Stack.Screen name="RegisterPage" component={RegisterPage} options={{ headerShown: false }} />
             <Stack.Screen name="InsertCode" component={InsertCode} options={{ headerShown: false }} />
             <Stack.Screen name="NavigationBar" component={NavigationBar} options={{ headerShown: false }} />
+            <Stack.Screen name="ProfileData" component={ProfileData} options={{ headerShown: true }} />
         </Stack.Navigator>
     );
 };
