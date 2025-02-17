@@ -5,6 +5,8 @@ const TOKEN_KEY = "jwt_token";
 const EMAIL_KEY = "user_email";
 const PASSWORD_KEY = "user_password";
 const USER_ID = "user_id";
+const NAME_KEY = "user_name";
+const PHONE_KEY = "user_phone";
 
 export const storeToken = async (token) => {
   try {
@@ -85,6 +87,24 @@ export const removePassword = async () => {
 export const getId = async () => {
   try {
     return await AsyncStorage.getItem(USER_ID);
+  } catch (error) {
+    console.error("Error retrieving the token", error);
+    return null;
+  }
+};
+
+export const getName = async () => {
+  try {
+    return await AsyncStorage.getItem(NAME_KEY);
+  } catch (error) {
+    console.error("Error retrieving the token", error);
+    return null;
+  }
+};
+
+export const getPhone = async () => {
+  try {
+    return await AsyncStorage.getItem(PHONE_KEY);
   } catch (error) {
     console.error("Error retrieving the token", error);
     return null;

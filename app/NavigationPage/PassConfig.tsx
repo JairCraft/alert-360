@@ -1,27 +1,26 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { getUser } from "../service/userService";
+import { getUser, updatePass } from "../service/userService";
 import { CommonActions, NavigationProp, useNavigation } from "@react-navigation/native";
-import { updateUser } from "../service/userService";
 import { showToast } from '../components/ToastManager';
 
 type RootStackParamList = {
-  ProfilePage: undefined;
+  PassConfig: undefined;
 };
 
-export default function ProfileData() {
+export default function PassConfig() {
+    const [pasa, setPasa] = useState('');
+    const [pasn, setPasn] = useState('');
+    const [pasn2, setPasn2] = useState('');
     const [user, setUser] = useState({
         id: 0,
-        name: "",
-        email: "",
-        phone: "",
         password: "",
     });
 
+    const [password, setPassword] = useState('');
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
-    const [password, setPassword] = useState('');
 
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
@@ -30,9 +29,9 @@ export default function ProfileData() {
             try {
                 const userData = await getUser();
                 setUser(userData);
+                setPassword(userData.password);
                 setName(userData.name);
                 setPhone(userData.phone);
-                setPassword(userData.password);
             } catch (error) {
                 console.error("Error al obtener usuario:", error);
             }
@@ -46,9 +45,23 @@ export default function ProfileData() {
             alert("No se encontró el ID del usuario.");
             return;
         }
-        const { res} = await updateUser(name, phone, password);
+        if (pasa !== user.password) {
+            alert("Contraseña Actual Incorrecta.");
+            return;
+        }
+        if (pasn !== pasn2) {
+            alert("La Nueva Contraseña no Coincide.");
+            return;
+        }
+        if (pasn !== pasn2) {
+            alert("La Nueva Contraseña no Coincide.");
+            return;
+        }
+        const { res} = await updatePass(name,phone,pasn);
+        console.log(pasn);
+        console.log(res);
         if (res) {
-            showToast("success","Exito","Datos actualizados correctamente.");
+            showToast("success","Exito","Contraseña actualizada correctamente.");
             navigation.dispatch(
                 CommonActions.reset({
                     index: 0,
@@ -57,38 +70,40 @@ export default function ProfileData() {
                 })
             );
         } else {
-            alert("Error al actualizar los datos.");
+            alert("Error al actualizar la Contraseña.");
         }
     };
 
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={styles.header}>INFORMACIÓN DEL USUARIO</Text>
+            <Text style={styles.header}>CAMBIAR CONTRASEÑA</Text>
 
             <View style={styles.infoBox}>
-                <Text style={styles.label}>Nombre</Text>
+                <Text style={styles.label}>Contraseña Actual</Text>
                 <TextInput
                     style={styles.input}
-                    value={name}
-                    onChangeText={setName}
+                    value={pasa}
+                    onChangeText={setPasa}
                 />
             </View>
 
             <View style={styles.infoBox}>
-                <Text style={styles.label}>Correo</Text>
-                <Text style={styles.value}>{user.email || "Cargando..."}</Text>
-            </View>
-
-            <View style={styles.infoBox}>
-                <Text style={styles.label}>Teléfono</Text>
+                <Text style={styles.label}>Contraseña Nueva</Text>
                 <TextInput
                     style={styles.input}
-                    value={phone}
-                    keyboardType="phone-pad"
-                    onChangeText={setPhone}
+                    value={pasn}
+                    onChangeText={setPasn}
                 />
             </View>
 
+            <View style={styles.infoBox}>
+                <Text style={styles.label}>Repetir Contraseña Actual</Text>
+                <TextInput
+                    style={styles.input}
+                    value={pasn2}
+                    onChangeText={setPasn2}
+                />
+            </View>
             {/*<View style={styles.infoBox}>
                 <Text style={styles.label}>Contraseña</Text>
                 <TextInput
