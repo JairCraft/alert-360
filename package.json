@@ -55,6 +55,7 @@
     "react-native-sensors": "^6.0.0",
     "react-native-skeleton-content": "^1.0.28",
     "react-native-skeleton-placeholder": "^5.2.4",
+    "react-native-toast-message": "^2.2.1",
     "react-native-web": "~0.19.13",
     "react-native-webview": "13.12.5",
     "rxjs": "^7.8.1"

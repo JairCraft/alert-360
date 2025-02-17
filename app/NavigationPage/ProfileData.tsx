@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { getUser } from "../service/userService";
 import { CommonActions, NavigationProp, useNavigation } from "@react-navigation/native";
 import { updateUser } from "../service/userService";
+import { showToast } from '../components/ToastManager';
 
 type RootStackParamList = {
   ProfilePage: undefined;
@@ -46,9 +47,8 @@ export default function ProfileData() {
             return;
         }
         const { res} = await updateUser(name, phone, password);
-        console.log(res)
         if (res) {
-            alert("Datos actualizados correctamente.");
+            showToast("success","Exito","Datos actualizados correctamente.");
             navigation.dispatch(
                 CommonActions.reset({
                     index: 0,
