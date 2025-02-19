@@ -1,19 +1,86 @@
-/*import React from 'react';
+// filepath: /app/index.tsx
+import React, { useEffect } from 'react';
 import MainNavigator from './MainNavigator';
+import * as Notifications from 'expo-notifications';
+import { messaging } from './firebaseConfig';
+import Toast from "react-native-toast-message";
+import { Platform } from "react-native";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
 export default function App() {
-  return <MainNavigator />;
-}*/
+  useEffect(() => {
+    registerForPushNotificationsAsync();
 
-import React from 'react';
-import MainNavigator from './MainNavigator';
-import Toast from 'react-native-toast-message';
+    const unsubscribe = messaging.onMessage(async remoteMessage => {
+      Notifications.scheduleNotificationAsync({
+        content: {
+          title: remoteMessage.notification?.title,
+          body: remoteMessage.notification?.body,
+        },
+        trigger: null,
+      });
+    });
 
-export default function App() {
-  return (
-    <>
-      <MainNavigator />
-      <Toast />
-    </>
-  );
+    return unsubscribe;
+  }, []);
+
+  // Add this to your App component
+  useEffect(() => {
+    const subscription = Notifications.addNotificationReceivedListener(notification => {
+      console.log(notification);
+    });
+
+    const responseSubscription = Notifications.addNotificationResponseReceivedListener(response => {
+      console.log(response);
+    });
+
+    return () => {
+      subscription.remove();
+      responseSubscription.remove();
+    };
+  }, []);
+
+  return (<>
+
+    <MainNavigator />
+    <Toast />
+
+  </>)
+}
+
+async function registerForPushNotificationsAsync() {
+  let token;
+  const { status: existingStatus } = await Notifications.getPermissionsAsync();
+  let finalStatus = existingStatus;
+
+  if (existingStatus !== 'granted') {
+    const { status } = await Notifications.requestPermissionsAsync();
+    finalStatus = status;
+  }
+
+  if (finalStatus !== 'granted') {
+    alert('Failed to get push token for push notification!');
+    return;
+  }
+
+  token = (await Notifications.getExpoPushTokenAsync()).data;
+  console.log(token);
+
+  if (Platform.OS === 'android') {
+    Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+
+  return token;
 }
