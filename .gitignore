@@ -40,3 +40,5 @@ android
 
 app-example
 .env
+.idea
+app.zip
