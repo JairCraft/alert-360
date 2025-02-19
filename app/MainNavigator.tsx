@@ -17,6 +17,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import ProfileData from './NavigationPage/ProfileData'
 import PassConfig from './NavigationPage/PassConfig';
 import ConfigPage from './NavigationPage/ConfigPage';
+import ContactPage from './NavigationPage/ContactPage';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -103,6 +104,7 @@ const MainNavigator = () => {
             <Stack.Screen name="ProfileData" component={ProfileData} options={{ headerShown: true }} />
             <Stack.Screen name="PassConfig" component={PassConfig} options={{ headerShown: true }} />
             <Stack.Screen name="ConfigPage" component={ConfigPage} options={{ headerShown: true }} />
+            <Stack.Screen name="ContactPage" component={ContactPage} options={{ headerShown: true }} />
         </Stack.Navigator>
     ); 
 };
