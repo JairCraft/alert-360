@@ -9,7 +9,8 @@ const firebaseConfig = {
   appId: "1:943921982787:android:b5a24cc1fa588d2a9f93f6",
 };
 
-const app = await firebase.initializeApp(firebaseConfig);
-const messaging = app.messaging();
+const app = firebase.initializeApp(firebaseConfig);
+const messaging = app.then(app => app.messaging());
 
-export { messaging };
+export { messaging }
+
