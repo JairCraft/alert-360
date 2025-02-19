@@ -11,6 +11,7 @@ type RootStackParamList = {
     Profile: undefined;
     ProfileData: undefined;
     PassConfig: undefined;
+    ContactPage: undefined;
 };
 
 export default function ConfigPage() {
@@ -42,9 +43,9 @@ const handleLogout = () => {
         <Text style={styles.optionText}>Cambiar contraseña</Text>
       </TouchableOpacity> 
       
-      <TouchableOpacity style={styles.option}>
+      <TouchableOpacity style={styles.option} onPress={() => { navigation.navigate("ContactPage") }}>
         <Image source={require('../../Icons/contactos.png')} style={styles.icon} />
-        <Text style={styles.optionText}>Administrar contactos de emergencia</Text>
+        <Text style={styles.optionText}>Agregar contacto de emergencia</Text>
       </TouchableOpacity>
       
       <View style={styles.option}>
