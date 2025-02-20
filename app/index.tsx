@@ -1,76 +1,53 @@
 import React, { useEffect, useState } from "react";
 import MainNavigator from "./MainNavigator";
-import * as Notifications from "expo-notifications";
 import Toast from "react-native-toast-message";
 import { Platform } from "react-native";
-import { firebase } from "@react-native-firebase/messaging";
+import messaging from "@react-native-firebase/messaging";
+import { PermissionsAndroid } from "react-native";
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: false,
-    shouldSetBadge: false,
-  }),
-});
-
-// Ensure Firebase is initialized once before using it
-const initializeFirebase = async () => {
-  if (!firebase.apps.length) {
-    await firebase.initializeApp({
-      apiKey: "AIzaSyCETRcJ0zPpmOo2l7av30R4CkdsCx9wgj4",
-      projectId: "alert360-c580b",
-      storageBucket: "alert360-c580b.firebasestorage.app",
-      messagingSenderId: "943921982787",
-      appId: "1:943921982787:android:b5a24cc1fa588d2a9f93f6",
-    });
-    console.log("Firebase initialized");
-  }
-};
 
 export default function App() {
-  const [firebaseReady, setFirebaseReady] = useState(false);
-
   useEffect(() => {
-    const setupFirebase = async () => {
-      await initializeFirebase();
-      setFirebaseReady(true);
-    };
+    const requestUserPermission = async () => {
+      PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS)
+      console.log('hola');
 
-    setupFirebase();
-  }, []);
+      await messaging().registerDeviceForRemoteMessages()
+      console.log('adios');
 
-  useEffect(() => {
-    if (!firebaseReady) return;
+      //const enabled = authStatus === messaging.AuthorizationStatus.AUTHORIZED || authStatus === messaging.AuthorizationStatus.PROVISIONAL
 
-    registerForPushNotificationsAsync();
+      /* if (enabled) {
+        console.log('Auth status ' + authStatus);
+      } */
+      const token = await messaging().getToken()
+      console.log('FCM token: ' + token);
+    }
+    /* 
+        const message = await messaging().getInitialNotification();
+    
+        const unsubscribe = messaging().onNotificationOpenedApp(remoteMessage => {
+    
+        }); */
+    console.log('useEfeect');
 
-    const unsubscribe = firebase.messaging().onMessage(async (remoteMessage) => {
-      Notifications.scheduleNotificationAsync({
-        content: {
-          title: remoteMessage.notification?.title,
-          body: remoteMessage.notification?.body,
-        },
-        trigger: null,
-      });
+    requestUserPermission()
+    console.log('useEfeect pass');
+
+  }, [])
+  /* 
+    messaging().setBackgroundMessageHandler(async remoteMessage => {
+      console.log('Message handled in the background!', remoteMessage);
     });
-
-    return () => unsubscribe();
-  }, [firebaseReady]);
-
-  useEffect(() => {
-    const subscription = Notifications.addNotificationReceivedListener((notification) => {
-      console.log(notification);
+  
+    const foreground = messaging().onMessage(async remoteMessage => {
+      console.log('A new FCM message arrived!', remoteMessage);
+  
     });
+  
+    foreground(); */
 
-    const responseSubscription = Notifications.addNotificationResponseReceivedListener((response) => {
-      console.log(response);
-    });
 
-    return () => {
-      subscription.remove();
-      responseSubscription.remove();
-    };
-  }, []);
 
   return (
     <>
@@ -78,34 +55,4 @@ export default function App() {
       <Toast />
     </>
   );
-}
-
-async function registerForPushNotificationsAsync() {
-  let token;
-  const { status: existingStatus } = await Notifications.getPermissionsAsync();
-  let finalStatus = existingStatus;
-
-  if (existingStatus !== "granted") {
-    const { status } = await Notifications.requestPermissionsAsync();
-    finalStatus = status;
-  }
-
-  if (finalStatus !== "granted") {
-    alert("Failed to get push token for push notification!");
-    return;
-  }
-
-  token = (await Notifications.getExpoPushTokenAsync()).data;
-  console.log(token);
-
-  if (Platform.OS === "android") {
-    Notifications.setNotificationChannelAsync("default", {
-      name: "default",
-      importance: Notifications.AndroidImportance.MAX,
-      vibrationPattern: [0, 250, 250, 250],
-      lightColor: "#FF231F7C",
-    });
-  }
-
-  return { token };
 }

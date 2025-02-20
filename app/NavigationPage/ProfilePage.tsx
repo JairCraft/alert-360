@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
-import { PermissionsAndroid } from 'react-native';
 import { getUser, getProfileByUser } from "../service/userService";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Welcome from "../components/Welcome";
 import AlertButton from "../components/AlertButton";
 import AlertOption from "./AlertPage";
-
-PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
 
 export default function ProfilePage() {
   const [user, setUser] = useState({ email: "", id: 0, name: "", phone: "" });
