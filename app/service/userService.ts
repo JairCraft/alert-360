@@ -27,7 +27,7 @@ export const getProfileByUser = async (userName: string) => {
 }
 
 
-export const updateUser = async (name: string, phone:string, password:string) => {
+export const updateUser = async (name: string, phone: string, password: string) => {
   const response = await fetch(
     (constants.expoConfig?.extra?.["API_ENDPOINT"] ?? "") + "/users",
     {
@@ -46,11 +46,10 @@ export const updateUser = async (name: string, phone:string, password:string) =>
     }
   );
   const res = response.status >= 200 && response.status < 300;
-  return { res};
+  return { res };
 };
 
-
-export const updatePass = async (name: string, phone:string, password:string) => {
+export const updatePass = async (name: string, phone: string, password: string) => {
   const response = await fetch(
     (constants.expoConfig?.extra?.["API_ENDPOINT"] ?? "") + "/users",
     {
@@ -63,11 +62,31 @@ export const updatePass = async (name: string, phone:string, password:string) =>
         id: parseInt(await getId() ?? "0"),
         password: password,
         name: name,
-        email: await getEmail()?? "",
+        email: await getEmail() ?? "",
         phone: phone,
       }),
     }
   );
   const res = response.status >= 200 && response.status < 300;
-  return { res};
+  return { res };
+};
+
+export const saveContact = async (email: string, relation: string) => {
+  const response = await fetch(
+    (constants.expoConfig?.extra?.["API_ENDPOINT"] ?? "") + "/contacts",
+    {
+      method: "POST", // O "PATCH" si solo actualizas algunos campos
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + (await getToken()),
+      },
+      body: JSON.stringify({
+        user_id: parseInt(await getId() ?? "0"),
+        relation: relation,
+        contact_email: email
+      }),
+    }
+  );
+  const res = response.status >= 200 && response.status < 300;
+  return { res };
 };

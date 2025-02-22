@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, FlatList, Dimensions } from 'react-native';
 import { Card } from 'react-native-paper';
 import { showToast } from '../components/ToastManager';
+import messaging from "@react-native-firebase/messaging";
 
 interface AlertOption {
   id: string;
@@ -11,19 +12,26 @@ interface AlertOption {
 }
 
 const alertOptions: AlertOption[] = [
-  { id: '1', icon: require('../../Icons/telefonoActivo.png'), label: 'Llamar a un familiar',message: 'Contacta rápidamente a un familiar en caso de emergencia.' },
-  { id: '2', icon: require('../../Icons/ubicacionActivo.png'), label: 'Compartir ubicación',message: 'Envía tu ubicación en tiempo real a tus contactos de confianza.' },
-  { id: '3', icon: require('../../Icons/notificacionActiva.png'), label: 'Notificar a contactos de emergencia',message: 'Alerta a tus contactos de emergencia con un solo toque.' },
-  { id: '4', icon: require('../../Icons/incidenteActivo.png'), label: 'Registrar incidente',message:'Documenta cualquier situación de riesgo con detalles clave.' },
-  { id: '5', icon: require('../../Icons/robo.png'), label: 'Robo, Atraco, Asalto',message:'Reporta un robo o asalto y envía una alerta inmediata.' },
-  { id: '6', icon: require('../../Icons/perdido.png'), label: 'Perdido, Desaparecido',message:'Informa si alguien está desaparecido y comparte información clave.' },
+  { id: '1', icon: require('../../Icons/telefonoActivo.png'), label: 'Llamar a un familiar', message: 'Contacta rápidamente a un familiar en caso de emergencia.' },
+  { id: '2', icon: require('../../Icons/ubicacionActivo.png'), label: 'Compartir ubicación', message: 'Envía tu ubicación en tiempo real a tus contactos de confianza.' },
+  { id: '3', icon: require('../../Icons/notificacionActiva.png'), label: 'Notificar a contactos de emergencia', message: 'Alerta a tus contactos de emergencia con un solo toque.' },
+  { id: '4', icon: require('../../Icons/incidenteActivo.png'), label: 'Registrar incidente', message: 'Documenta cualquier situación de riesgo con detalles clave.' },
+  { id: '5', icon: require('../../Icons/robo.png'), label: 'Robo, Atraco, Asalto', message: 'Reporta un robo o asalto y envía una alerta inmediata.' },
+  { id: '6', icon: require('../../Icons/perdido.png'), label: 'Perdido, Desaparecido', message: 'Informa si alguien está desaparecido y comparte información clave.' },
 ];
 
 const AlertOptionsPage: React.FC = () => {
 
   const handleUpdate = async () => {
-      showToast("success","Exito","Alerta Enviada(SOLO ES UNA NOTA)");
-    };
+    await messaging().sendMessage({
+      data: {
+        score: '850',
+        time: '2:45'
+      },
+      token: ""
+    })
+    showToast("success", "Exito", "Alerta Enviada(SOLO ES UNA NOTA)");
+  };
 
   const renderItem = ({ item }: { item: AlertOption }) => (
     <TouchableOpacity>
@@ -33,8 +41,8 @@ const AlertOptionsPage: React.FC = () => {
             <Image source={item.icon} style={styles.icon} />
             <Text style={styles.optionText}>{item.label}</Text>
             <Text style={styles.textMessage}>{item.message}</Text>
-            <TouchableOpacity style={styles.button} onPress={()=>{handleUpdate()}}>
-                            <Text style={styles.buttonText}>ALERTAR!!!</Text>
+            <TouchableOpacity style={styles.button} onPress={() => { handleUpdate() }}>
+              <Text style={styles.buttonText}>ALERTAR!!!</Text>
             </TouchableOpacity>
           </View>
         </Card.Content>
@@ -76,8 +84,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   card: {
-    width: Dimensions.get('window').width - 40, 
-    height: Dimensions.get('window').height / 2, 
+    width: Dimensions.get('window').width - 40,
+    height: Dimensions.get('window').height / 2,
   },
   cardContent: {
     //flex: 1,
@@ -96,7 +104,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     tintColor: '#00a9b2',
     justifyContent: 'center',
-    alignItems: 'center', 
+    alignItems: 'center',
   },
   optionText: {
     fontSize: 18,
@@ -111,18 +119,18 @@ const styles = StyleSheet.create({
     padding: 30,
   },
   button: {
-        backgroundColor: '#00a9b2',
-        paddingVertical: 10,
-        paddingHorizontal: 40,
-        borderRadius: 25,
-        alignItems: 'center',
-        marginTop: 10,
-    },
-    buttonText: {
-        color: '#fff',
-        fontSize: 18,
-        fontWeight: 'bold',
-    },
+    backgroundColor: '#00a9b2',
+    paddingVertical: 10,
+    paddingHorizontal: 40,
+    borderRadius: 25,
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
 });
 
 export default AlertOptionsPage;

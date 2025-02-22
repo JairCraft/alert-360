@@ -3,27 +3,33 @@ import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { showToast } from '../components/ToastManager';
+import { saveContact } from "../service/userService";
 
 type RootStackParamList = {
-  ProfilePage: undefined;
+    ProfilePage: undefined;
 };
 
 //LA IDEA ES PONER EL NUMERO DE CONTACTO Y SE LLENEN AUTOMATICAMENTE EL CAMPO DE NOMBRE
 //Y LUEGO LLENAR EL CAMPO DE RELACION
 
 export default function ProfileData() {
-    const [user, setUser] = useState({
-        user_id: 0,
-        contact_id: 0,
+    const [contact, setContact] = useState({
+        email: "",
         relation: "",
-        state: ""
     });
-    
+
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
 
     const handleUpdate = async () => {
-        showToast("success","Exito","Contacto de Emergencia Agregado(SOLO ES UNA NOTA)");
+        try {
+            const res = await saveContact(contact.email, contact.relation);
+            if (res)
+                showToast("success", "Exito", "Contacto de Emergencia Agregado");
+        } catch (error) {
+            showToast("success", "Exito", "Error al agregar");
+            console.log(error);
+        }
     };
 
     return (
@@ -34,16 +40,15 @@ export default function ProfileData() {
                 <Text style={styles.label}>Nombre</Text>
                 <TextInput
                     style={styles.input}
-                    value="Nombre de Contacto"
                 />
             </View>
 
             <View style={styles.infoBox}>
-                <Text style={styles.label}>Teléfono</Text>
+                <Text style={styles.label}>Correo Electronico</Text>
                 <TextInput
                     style={styles.input}
-                    value="1234567890"
-                    keyboardType="phone-pad"
+                    value={contact.email}
+                    onChangeText={(text) => setContact({ ...contact, email: text })}
                 />
             </View>
 
@@ -51,11 +56,12 @@ export default function ProfileData() {
                 <Text style={styles.label}>Relación</Text>
                 <TextInput
                     style={styles.input}
-                    value="Yo soy tu padre"
+                    value={contact.relation}
+                    onChangeText={(text) => setContact({ ...contact, relation: text })}
                 />
             </View>
 
-            <TouchableOpacity style={styles.button} onPress={()=>{handleUpdate()}}>
+            <TouchableOpacity style={styles.button} onPress={() => { handleUpdate() }}>
                 <Text style={styles.buttonText}>Nuevo Contacto</Text>
             </TouchableOpacity>
         </SafeAreaView>
