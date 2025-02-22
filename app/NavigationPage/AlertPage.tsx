@@ -23,13 +23,13 @@ const alertOptions: AlertOption[] = [
 const AlertOptionsPage: React.FC = () => {
 
   const handleUpdate = async () => {
-    await messaging().sendMessage({
+    /*await messaging().sendMessage({
       data: {
         score: '850',
         time: '2:45'
       },
       token: ""
-    })
+    })*/
     showToast("success", "Exito", "Alerta Enviada(SOLO ES UNA NOTA)");
   };
 

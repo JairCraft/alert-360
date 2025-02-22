@@ -19,6 +19,7 @@ import PassConfig from './NavigationPage/PassConfig';
 import ConfigPage from './NavigationPage/ConfigPage';
 import ContactPage from './NavigationPage/ContactPage';
 import NotificationPage from './NavigationPage/NotificationPage';
+import AccelerometerSensor from './NavigationPage/AccelerometerSensor';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -107,6 +108,7 @@ const MainNavigator = () => {
             <Stack.Screen name="ConfigPage" component={ConfigPage} options={{ headerShown: true }} />
             <Stack.Screen name="ContactPage" component={ContactPage} options={{ headerShown: true }} />
             <Stack.Screen name="NotificationPage" component={NotificationPage} options={{ headerShown: true }} />
+            <Stack.Screen name="AccelerometerSensor" component={AccelerometerSensor} options={{ headerShown: true }} />
         </Stack.Navigator>
     ); 
 };
