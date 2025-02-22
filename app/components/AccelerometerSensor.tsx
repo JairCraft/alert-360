@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { Accelerometer } from 'expo-sensors';
-import { FallContext } from "./FallContext"; // Asegúrate de la ruta correcta
+import { FallContext } from './FallContext';
 
 const AccelerometerSensor = () => {
   const [data, setData] = useState({ x: 0, y: 0, z: 0 });
@@ -41,6 +41,7 @@ const AccelerometerSensor = () => {
       <Text style={styles.dataText}>X: {data.x.toFixed(2)}</Text>
       <Text style={styles.dataText}>Y: {data.y.toFixed(2)}</Text>
       <Text style={styles.dataText}>Z: {data.z.toFixed(2)}</Text>
+      {/** Opcional: mostrar alerta o indicador en la misma pantalla */}
     </View>
   );
 };
