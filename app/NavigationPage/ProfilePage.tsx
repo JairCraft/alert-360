@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
-import { PermissionsAndroid } from 'react-native';
 import { getUser, getProfileByUser } from "../service/userService";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Welcome from "../components/Welcome";
 import AlertButton from "../components/AlertButton";
-
-PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
+import AlertOption from "./AlertPage";
 
 export default function ProfilePage() {
   const [user, setUser] = useState({ email: "", id: 0, name: "", phone: "" });
@@ -49,7 +47,7 @@ export default function ProfilePage() {
         <Text>Loading...</Text>
       )
       }
-      <AlertButton />
+      <AlertOption />
     </SafeAreaView >
   );
 }

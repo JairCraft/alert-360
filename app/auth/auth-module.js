@@ -69,3 +69,4 @@ export const confirmEmail = async (verificationCode) => {
   const res = response.status >= 200 && response.status < 300;
   return res;
 };
+

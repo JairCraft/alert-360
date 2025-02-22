@@ -4,10 +4,21 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const TOKEN_KEY = "jwt_token";
 const EMAIL_KEY = "user_email";
 const PASSWORD_KEY = "user_password";
+const USER_ID = "user_id";
+const NAME_KEY = "user_name";
+const PHONE_KEY = "user_phone";
 
 export const storeToken = async (token) => {
   try {
     await AsyncStorage.setItem(TOKEN_KEY, token);
+  } catch (error) {
+    console.error("Error storing the token", error);
+  }
+};
+
+export const storeId = async (id) => {
+  try {
+    await AsyncStorage.setItem(USER_ID, id.toString());
   } catch (error) {
     console.error("Error storing the token", error);
   }
@@ -69,5 +80,33 @@ export const removePassword = async () => {
     await AsyncStorage.removeItem(PASSWORD_KEY);
   } catch (error) {
     console.error("Error removing the password", error);
+  }
+};
+
+
+export const getId = async () => {
+  try {
+    return await AsyncStorage.getItem(USER_ID);
+  } catch (error) {
+    console.error("Error retrieving the token", error);
+    return null;
+  }
+};
+
+export const getName = async () => {
+  try {
+    return await AsyncStorage.getItem(NAME_KEY);
+  } catch (error) {
+    console.error("Error retrieving the token", error);
+    return null;
+  }
+};
+
+export const getPhone = async () => {
+  try {
+    return await AsyncStorage.getItem(PHONE_KEY);
+  } catch (error) {
+    console.error("Error retrieving the token", error);
+    return null;
   }
 };

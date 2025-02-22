@@ -3,18 +3,32 @@ import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity, Image } fr
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 
+const GOOGLE_PLACES_API_KEY = 'TU_API_KEY_AQUI'; // Reemplaza con tu clave
+
+// Define la interfaz para los hospitales según la respuesta de Google Places API
+interface Hospital {
+  geometry: {
+    location: {
+      lat: number;
+      lng: number;
+    };
+  };
+  name: string;
+  vicinity: string;
+}
+
 const SearchPage = () => {
   const [location, setLocation] = useState<Location.LocationObject | null>(null);
+  const [hospitals, setHospitals] = useState<Hospital[]>([]);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const mapRef = useRef<MapView | null>(null); // Referencia para el mapa
+  const mapRef = useRef<MapView | null>(null);
 
   useEffect(() => {
-    getCurrentLocation(); // Llamar para obtener la ubicación inicial solo una vez
+    getCurrentLocation();
   }, []);
 
   // Obtener la ubicación actual
   const getCurrentLocation = async () => {
-    // Pedir permiso para acceder a la ubicación
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== 'granted') {
       setErrorMsg('Permiso de ubicación denegado.');
@@ -22,11 +36,24 @@ const SearchPage = () => {
     }
 
     try {
-      // Obtener ubicación actual solo una vez
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location); // Establecer la ubicación
+      let loc = await Location.getCurrentPositionAsync({});
+      setLocation(loc);
+      fetchHospitals(loc.coords.latitude, loc.coords.longitude);
     } catch (error) {
       setErrorMsg('No se pudo obtener la ubicación.');
+    }
+  };
+
+  // Buscar hospitales cercanos usando Google Places API
+  const fetchHospitals = async (latitude: number, longitude: number) => {
+    const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=5000&type=hospital&key=AIzaSyDd3NspaS2iCdQ4OrdX76dB7qO_W1H-Myw`;
+
+    try {
+      let response = await fetch(url);
+      let data = await response.json();
+      setHospitals(data.results);
+    } catch (error) {
+      console.error('Error obteniendo hospitales:', error);
     }
   };
 
@@ -37,10 +64,10 @@ const SearchPage = () => {
         {
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
-          latitudeDelta: 0.01, // Nivel de zoom
+          latitudeDelta: 0.01,
           longitudeDelta: 0.01,
         },
-        1000 // Duración de la animación
+        1000
       );
     }
   };
@@ -53,14 +80,15 @@ const SearchPage = () => {
         <>
           <MapView
             style={styles.map}
-            ref={mapRef} // Referencia al mapa
+            ref={mapRef}
             initialRegion={{
               latitude: location.coords.latitude,
               longitude: location.coords.longitude,
-              latitudeDelta: 0.01, // Nivel de zoom inicial
+              latitudeDelta: 0.01,
               longitudeDelta: 0.01,
             }}
           >
+            {/* Marcador de la ubicación del usuario */}
             <Marker
               coordinate={{
                 latitude: location.coords.latitude,
@@ -68,18 +96,27 @@ const SearchPage = () => {
               }}
               title="Mi ubicación"
               description="Aquí estoy ahora."
+              pinColor="red"
             />
+
+            {/* Marcadores de hospitales */}
+            {hospitals.map((hospital, index) => (
+              <Marker
+                key={index}
+                coordinate={{
+                  latitude: hospital.geometry.location.lat,
+                  longitude: hospital.geometry.location.lng,
+                }}
+                title={hospital.name}
+                description={hospital.vicinity}
+                image={require('../../Icons/hospital.png')}
+              />
+            ))}
           </MapView>
 
-          {/* Icono de localización */}
-          <TouchableOpacity
-            style={styles.locationButton}
-            onPress={centerMapOnLocation} // Centrar el mapa sin pedir la ubicación nuevamente
-          >
-            <Image
-              source={require('../../Icons/localizacion.png')}
-              style={styles.locationIcon}
-            />
+          {/* Botón para centrar la ubicación */}
+          <TouchableOpacity style={styles.locationButton} onPress={centerMapOnLocation}>
+            <Image source={require('../../Icons/localizacion.png')} style={styles.locationIcon} />
           </TouchableOpacity>
         </>
       ) : (
@@ -106,9 +143,9 @@ const styles = StyleSheet.create({
   },
   locationButton: {
     position: 'absolute',
-    top: 540, // Ajusta la posición vertical
-    right: 20, // Ajusta la posición horizontal
-    backgroundColor: 'rgba(0, 0, 0, 0.6)', // Fondo semitransparente
+    top: 540,
+    right: 20,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
     borderRadius: 50,
     padding: 10,
   },

@@ -14,6 +14,11 @@ import AlertPage from './NavigationPage/AlertPage';
 import InsertCode from './NavigationPage/InsertCode';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import ProfileData from './NavigationPage/ProfileData'
+import PassConfig from './NavigationPage/PassConfig';
+import ConfigPage from './NavigationPage/ConfigPage';
+import ContactPage from './NavigationPage/ContactPage';
+import NotificationPage from './NavigationPage/NotificationPage';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -49,8 +54,8 @@ const NavigationBar = () => {
                             icon = focused ? require('../Icons/usuarioActivo.png') : require('../Icons/usuario.png');
                         } else if (route.name === 'Configuración') {
                             icon = focused ? require('../Icons/configuracionUserActivo.png') : require('../Icons/configuracionUser.png');
-                        } else if (route.name === 'Alerta') {
-                            icon = focused ? require('../Icons/advertenciaActivo.png') : require('../Icons/advertencia.png');
+                        } else if (route.name === 'Notificaciones') {
+                            icon = focused ? require('../Icons/notificacionActiva.png') : require('../Icons/notificacion.png');
                         }
 
                         return (
@@ -83,7 +88,7 @@ const NavigationBar = () => {
             >
                 <Tab.Screen name="Perfil" component={ProfilePage} />
                 <Tab.Screen name="Search" component={SearchPage} />
-                <Tab.Screen name="Alerta" component={AlertPage} />
+                <Tab.Screen name="Notificaciones" component={NotificationPage} />
                 <Tab.Screen name="Configuración" component={CarPage} />
             </Tab.Navigator>
         </SafeAreaView>
@@ -97,8 +102,13 @@ const MainNavigator = () => {
             <Stack.Screen name="RegisterPage" component={RegisterPage} options={{ headerShown: false }} />
             <Stack.Screen name="InsertCode" component={InsertCode} options={{ headerShown: false }} />
             <Stack.Screen name="NavigationBar" component={NavigationBar} options={{ headerShown: false }} />
+            <Stack.Screen name="ProfileData" component={ProfileData} options={{ headerShown: true }} />
+            <Stack.Screen name="PassConfig" component={PassConfig} options={{ headerShown: true }} />
+            <Stack.Screen name="ConfigPage" component={ConfigPage} options={{ headerShown: true }} />
+            <Stack.Screen name="ContactPage" component={ContactPage} options={{ headerShown: true }} />
+            <Stack.Screen name="NotificationPage" component={NotificationPage} options={{ headerShown: true }} />
         </Stack.Navigator>
-    );
+    ); 
 };
 
 export default MainNavigator;
