@@ -9,6 +9,7 @@ type RootStackParamList = {
     NavigationBar: undefined;
     RegisterPage: undefined;
     Profile: undefined;
+    AccelerometerSensor: undefined;
 };
 
 export default function LoginComponent() {
@@ -99,7 +100,8 @@ export default function LoginComponent() {
                 {/* Texto inferior */}
                 <View style={styles.footerContainer}>
                     <Text style={styles.footerText}>¿No tienes cuenta?</Text>
-                    <TouchableOpacity onPress={() => { navigation.navigate("RegisterPage") }}>
+                    {/*<TouchableOpacity onPress={() => { navigation.navigate("RegisterPage") }}>*/}
+                    <TouchableOpacity onPress={() => { navigation.navigate("AccelerometerSensor") }}>    
                         <Text style={styles.registerText}> Regístrate</Text>
                     </TouchableOpacity>
                         </View>
