@@ -3,7 +3,7 @@ import MainNavigator from "./MainNavigator";
 import Toast from "react-native-toast-message";
 import messaging from "@react-native-firebase/messaging";
 import { PermissionsAndroid } from "react-native";
-
+import { FallProvider } from "./components/FallContext";
 
 export default function App() {
   useEffect(() => {
@@ -36,8 +36,10 @@ export default function App() {
 
   return (
     <>
+    <FallProvider>
       <MainNavigator />
       <Toast />
+    </FallProvider>  
     </>
   );
 }

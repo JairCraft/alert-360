@@ -1,5 +1,5 @@
 // filepath: /c:/Users/jairg/OneDrive/Documentos/node-projects/alert-360/app/MainNavigator.tsx
-import React from 'react';
+import React, { useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -19,7 +19,8 @@ import PassConfig from './NavigationPage/PassConfig';
 import ConfigPage from './NavigationPage/ConfigPage';
 import ContactPage from './NavigationPage/ContactPage';
 import NotificationPage from './NavigationPage/NotificationPage';
-import AccelerometerSensor from './NavigationPage/AccelerometerSensor';
+import AccelerometerSensor from './components/AccelerometerSensor';
+import { FallContext } from './components/FallContext';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -97,20 +98,35 @@ const NavigationBar = () => {
 };
 
 const MainNavigator = () => {
-    return (
-        <Stack.Navigator initialRouteName="Login">
-            <Stack.Screen name="Login" component={LoginComponent} options={{ headerShown: false }} />
-            <Stack.Screen name="RegisterPage" component={RegisterPage} options={{ headerShown: false }} />
-            <Stack.Screen name="InsertCode" component={InsertCode} options={{ headerShown: false }} />
-            <Stack.Screen name="NavigationBar" component={NavigationBar} options={{ headerShown: false }} />
-            <Stack.Screen name="ProfileData" component={ProfileData} options={{ headerShown: true }} />
-            <Stack.Screen name="PassConfig" component={PassConfig} options={{ headerShown: true }} />
-            <Stack.Screen name="ConfigPage" component={ConfigPage} options={{ headerShown: true }} />
-            <Stack.Screen name="ContactPage" component={ContactPage} options={{ headerShown: true }} />
-            <Stack.Screen name="NotificationPage" component={NotificationPage} options={{ headerShown: true }} />
-            <Stack.Screen name="AccelerometerSensor" component={AccelerometerSensor} options={{ headerShown: true }} />
-        </Stack.Navigator>
-    ); 
+    const { isFallDetected } = useContext(FallContext);
+return (    
+    <Stack.Navigator
+      initialRouteName="Login"
+      screenOptions={{
+        // Se ajusta el color de la cabecera según el estado de detección de caídas
+        headerStyle: {
+          backgroundColor: isFallDetected ? 'red' : '#00a9b2',
+          //shadowOpacity: 0,
+        },
+        headerTitleStyle: {
+          color: '#fff',
+          fontSize: 18,
+          fontWeight: 'bold',
+        },
+      }}
+    >
+      <Stack.Screen name="Login" component={LoginComponent} options={{ headerShown: false }} />
+      <Stack.Screen name="RegisterPage" component={RegisterPage} options={{ headerShown: false }} />
+      <Stack.Screen name="InsertCode" component={InsertCode} options={{ headerShown: false }} />
+      <Stack.Screen name="NavigationBar" component={NavigationBar} options={{ headerShown: false }} />
+      <Stack.Screen name="ProfileData" component={ProfileData} options={{ headerShown: true }} />
+      <Stack.Screen name="PassConfig" component={PassConfig} options={{ headerShown: true }} />
+      <Stack.Screen name="ConfigPage" component={ConfigPage} options={{ headerShown: true }} />
+      <Stack.Screen name="ContactPage" component={ContactPage} options={{ headerShown: true }} />
+      <Stack.Screen name="NotificationPage" component={NotificationPage} options={{ headerShown: true }} />
+      <Stack.Screen name="AccelerometerSensor" component={AccelerometerSensor} options={{ headerShown: true }} />
+    </Stack.Navigator>
+  );
 };
 
 export default MainNavigator;
