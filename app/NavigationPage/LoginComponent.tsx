@@ -1,7 +1,7 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation, NavigationProp, CommonActions } from '@react-navigation/native';
 import React, { useState } from "react";
-import { View, TextInput, TouchableOpacity, StyleSheet, Image, Text, StatusBar } from "react-native";
+import { View, TextInput, TouchableOpacity, StyleSheet, Image, Text, StatusBar, ActivityIndicator  } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { loginUser } from "../auth/auth-module";
 
@@ -17,8 +17,15 @@ export default function LoginComponent() {
     const [checked, setChecked] = useState(false);
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
+    const [loading, setLoading] = useState(false);  // Estado para controlar la carga
+    const [appLoaded, setAppLoaded] = useState(false);  // Nuevo estado para controlar si la app está lista
+
     const handleLogin = async () => {
-        if (await loginUser(email, password)) {
+        setLoading(true);  // Activar el spinner de carga
+        const success = await loginUser(email, password);
+        setLoading(false);   // Desactivar el spinner cuando el login termine
+
+        if (success) {
             navigation.dispatch(
                 CommonActions.reset({
                     index: 0,
@@ -30,10 +37,22 @@ export default function LoginComponent() {
         }
     };
 
+    React.useEffect(() => {
+        setTimeout(() => setAppLoaded(true), 2000);  // Simula el tiempo de carga de la app
+    }, []);
+
     return (
         <SafeAreaView style={styles.safeArea}>
+
             <StatusBar barStyle="light-content" backgroundColor={"#00a9b2"} />
+
             <LinearGradient colors={['#00a9b2', '#440b61']} style={styles.container}>
+
+                {/* Mostrar el logo hasta que se cargue la app */}
+                {!appLoaded ? (
+                    <Image source={require('../../Icons/logo.png')} style={styles.logo} />
+                ) : (
+                <>
                 {/* Logo */}
                 <Image source={require('../../Icons/logo.png')} style={styles.logo} />
 
@@ -69,8 +88,12 @@ export default function LoginComponent() {
                 </View>
 
                 {/* Botón */}
-                <TouchableOpacity style={styles.button} onPress={handleLogin}>
-                    <Text style={styles.buttonText}>Sign In</Text>
+                <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={loading}>
+                    {loading ? (
+                        <ActivityIndicator size="small" color="#4facfe" />
+                    ) : (
+                        <Text style={styles.buttonText}>Sign In</Text>
+                    )}
                 </TouchableOpacity>
 
                 {/* Texto inferior */}
@@ -79,9 +102,11 @@ export default function LoginComponent() {
                     <TouchableOpacity onPress={() => { navigation.navigate("RegisterPage") }}>
                         <Text style={styles.registerText}> Regístrate</Text>
                     </TouchableOpacity>
-                </View>
+                        </View>
+                    </>
+                )}
             </LinearGradient>
-        </SafeAreaView>
+        </SafeAreaView> 
     );
 }
 
