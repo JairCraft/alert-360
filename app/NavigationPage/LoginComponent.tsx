@@ -1,9 +1,10 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation, NavigationProp, CommonActions } from '@react-navigation/native';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, TextInput, TouchableOpacity, StyleSheet, Image, Text, StatusBar, ActivityIndicator  } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { loginUser } from "../auth/auth-module";
+
 
 type RootStackParamList = {
     NavigationBar: undefined;
@@ -17,7 +18,7 @@ export default function LoginComponent() {
     const [password, setPassword] = useState('');
     const [checked, setChecked] = useState(false);
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-
+    const [isVisible, setIsVisible] = useState(false);
     const [loading, setLoading] = useState(false);  // Estado para controlar la carga
     const [appLoaded, setAppLoaded] = useState(false);  // Nuevo estado para controlar si la app está lista
 
@@ -69,15 +70,24 @@ export default function LoginComponent() {
                         onChangeText={setEmail}
                         autoCapitalize="none"
                     />
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Contraseña"
-                        placeholderTextColor="#fff"
-                        secureTextEntry
-                        value={password}
-                        onChangeText={setPassword}
-                        autoCapitalize="none"
-                    />
+                    
+                    <View style={{ flexDirection: "row", alignItems: "center", borderBottomWidth: 1, borderColor: "#fff" }}>
+                        <TextInput
+                            style={{ flex: 1, color: "#fff",fontSize: 16}}
+                            placeholder="Contraseña"
+                            placeholderTextColor="#fff"
+                            secureTextEntry={!isVisible}
+                            value={password}
+                            onChangeText={setPassword}
+                            autoCapitalize="none"
+                        />
+                        <TouchableOpacity onPress={() => setIsVisible(!isVisible)}>
+                            <Image
+                            source={isVisible ? require("../../Icons/monodestapado.png") : require("../../Icons/monotapado.png")}
+                            style={{ width: 24, height: 24, marginRight: 10 }}
+                            />
+                        </TouchableOpacity>
+                        </View>
                 </View>
 
                 {/* Checkbox y texto */}
@@ -88,20 +98,20 @@ export default function LoginComponent() {
                     <Text style={styles.checkboxText}>Recordar mis credenciales</Text>
                 </View>
 
+
                 {/* Botón */}
                 <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={loading}>
                     {loading ? (
                         <ActivityIndicator size="small" color="#4facfe" />
                     ) : (
-                        <Text style={styles.buttonText}>Sign In</Text>
+                        <Text style={styles.buttonText}>Iniciar Sesión</Text>
                     )}
                 </TouchableOpacity>
 
                 {/* Texto inferior */}
                 <View style={styles.footerContainer}>
                     <Text style={styles.footerText}>¿No tienes cuenta?</Text>
-                    {/*<TouchableOpacity onPress={() => { navigation.navigate("RegisterPage") }}>*/}
-                    <TouchableOpacity onPress={() => { navigation.navigate("AccelerometerSensor") }}>    
+                    <TouchableOpacity onPress={() => { navigation.navigate("RegisterPage") }}>
                         <Text style={styles.registerText}> Regístrate</Text>
                     </TouchableOpacity>
                         </View>
