@@ -1,4 +1,3 @@
-// filepath: /c:/Users/jairg/OneDrive/Documentos/node-projects/alert-360/app/MainNavigator.tsx
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -111,4 +110,4 @@ const MainNavigator = () => {
     ); 
 };
 
-export default MainNavigator;
+export default MainNavigator;  

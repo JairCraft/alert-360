@@ -34,7 +34,7 @@ const AlertOptionsPage: React.FC = () => {
         body: JSON.stringify({
           token: 'cemAadMqSmCBaJc1UdeW_B:APA91bFidaX_BZ0OPMfpY0Du1QyOapGjlnRF-r1zbSOgj6q8DeiRtgVYs0OxrgWRKkkjr0-hroeg-pJ9Xssett4O7fdmZyo4LiLgdH5jZ6qXa0hEsOOKWj0',
           title: "Jair se esta ahogando",
-          body: "click aqui para que se muera",
+          body: "click aqui para que se muera x2",
         }),
       });
 

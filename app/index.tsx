@@ -3,7 +3,7 @@ import MainNavigator from "./MainNavigator";
 import Toast from "react-native-toast-message";
 import messaging from "@react-native-firebase/messaging";
 import { PermissionsAndroid } from "react-native";
-import { FallProvider } from './components/FallContext';
+import { AcelerometroProvider } from "./components/AcelerometroContext";
 
 export default function App() {
   useEffect(() => {
@@ -32,31 +32,14 @@ export default function App() {
     });
 
     return unsubscribe;
-
-
   }, []);
-
-  useEffect(() => {
-    const sentMessage = messaging().onMessageSent(async (messageId) => { console.log('enviado'); console.log(messageId) });
-    return sentMessage
-  }, [])
-
-  useEffect(() => {
-    const eror = messaging().onSendError(async ({ messageId, error }) => {
-      console.log(error)
-      console.log(messageId);
-
-    });
-
-    return eror
-  }, [])
 
   return (
     <>
-    <FallProvider>  
+    <AcelerometroProvider>
       <MainNavigator />
       <Toast />
-    </FallProvider>  
+      </AcelerometroProvider>
     </>
   );
 }
