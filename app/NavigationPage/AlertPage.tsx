@@ -2,9 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, FlatList, Dimensions } from 'react-native';
 import { Card } from 'react-native-paper';
 import { showToast } from '../components/ToastManager';
-import axios from "axios";
-import messaging from "@react-native-firebase/messaging";
-import constants from "expo-constants";
+import { sendNotification } from "../service/userService";
 
 interface AlertOption {
   id: string;
@@ -26,25 +24,12 @@ const AlertOptionsPage: React.FC = () => {
 
   const handleUpdate = async () => {
     try {
-      const response = await fetch((constants.expoConfig?.extra?.["API_ENDPOINT"] ?? "") + "/send-notification", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          token: 'cemAadMqSmCBaJc1UdeW_B:APA91bFidaX_BZ0OPMfpY0Du1QyOapGjlnRF-r1zbSOgj6q8DeiRtgVYs0OxrgWRKkkjr0-hroeg-pJ9Xssett4O7fdmZyo4LiLgdH5jZ6qXa0hEsOOKWj0',
-          title: "Jair se esta ahogando",
-          body: "click aqui para que se muera x2",
-        }),
-      });
-
-      const result = await response.json();
+      const result = sendNotification()
       console.log(result);
-
+      showToast("success", "Exito", "Alerta Enviada");
     } catch (error) {
       console.log('Error sending message:', error);
     }
-    showToast("success", "Exito", "Alerta Enviada(SOLO ES UNA NOTA)");
   };
 
   const renderItem = ({ item }: { item: AlertOption }) => (

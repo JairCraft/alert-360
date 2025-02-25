@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
-import { getUser, getProfileByUser } from "../service/userService";
+import { getUser, getProfileByUser, saveDeviceFcmToken } from "../service/userService";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Welcome from "../components/Welcome";
 import AlertButton from "../components/AlertButton";
@@ -14,6 +14,7 @@ export default function ProfilePage() {
     async function fetchUser() {
       try {
         const userData: { email: string, id: number, name: string, phone: string } = await getUser();
+        saveDeviceFcmToken()
         setUser(userData);
       } catch (error) {
         console.error("Failed to fetch user data:", error);

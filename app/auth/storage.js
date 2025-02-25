@@ -7,6 +7,7 @@ const PASSWORD_KEY = "user_password";
 const USER_ID = "user_id";
 const NAME_KEY = "user_name";
 const PHONE_KEY = "user_phone";
+const FCM_TOKEN = "fcm_token";
 
 export const storeToken = async (token) => {
   try {
@@ -83,13 +84,20 @@ export const removePassword = async () => {
   }
 };
 
-
 export const getId = async () => {
   try {
     return await AsyncStorage.getItem(USER_ID);
   } catch (error) {
     console.error("Error retrieving the token", error);
     return null;
+  }
+};
+
+export const storeName = async (name) => {
+  try {
+    await AsyncStorage.setItem(NAME_KEY, name);
+  } catch (error) {
+    console.error("Error retrieving the token", error);
   }
 };
 
@@ -108,5 +116,21 @@ export const getPhone = async () => {
   } catch (error) {
     console.error("Error retrieving the token", error);
     return null;
+  }
+};
+
+export const storeFcmToken = async (token) => {
+  try {
+    await AsyncStorage.setItem(FCM_TOKEN, token);
+  } catch (error) {
+    console.error("Error storing the token", error);
+  }
+};
+
+export const getFcmToken = async () => {
+  try {
+    return await AsyncStorage.getItem(FCM_TOKEN);
+  } catch (error) {
+    console.error("Error retrieving the token", error);
   }
 };

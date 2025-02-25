@@ -4,6 +4,7 @@ import Toast from "react-native-toast-message";
 import messaging from "@react-native-firebase/messaging";
 import { PermissionsAndroid } from "react-native";
 import { AcelerometroProvider } from "./components/AcelerometroContext";
+import { storeFcmToken } from "./auth/storage";
 
 export default function App() {
   useEffect(() => {
@@ -18,6 +19,7 @@ export default function App() {
         console.log('Auth status ' + authStatus);
         await messaging().registerDeviceForRemoteMessages()
         const token = await messaging().getToken()
+        storeFcmToken(token)
         console.log('FCM token: ' + token);
       }
     }
@@ -36,9 +38,9 @@ export default function App() {
 
   return (
     <>
-    <AcelerometroProvider>
-      <MainNavigator />
-      <Toast />
+      <AcelerometroProvider>
+        <MainNavigator />
+        <Toast />
       </AcelerometroProvider>
     </>
   );
