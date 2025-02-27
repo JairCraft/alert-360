@@ -145,9 +145,6 @@ export const getAlert = async () => {
       },
     }
   );
-  const notUser: { creationDate: string,state:string,description:string } = await response.json()
- // await storeId(userData.id)
-  //await storeName(userData.name)
-  console.log(notUser)
-  return { ...notUser };
+  const notUser: { creation_date: string, description: string, id: string, state: string, user_id: string }[] = await response.json()
+  return notUser;
 };

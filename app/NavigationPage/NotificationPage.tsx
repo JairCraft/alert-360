@@ -5,51 +5,46 @@ import { getAlert } from "../service/userService";
 import { CommonActions, NavigationProp, useNavigation } from "@react-navigation/native";
 
 type RootStackParamList = {
-  ProfilePage: undefined;
+    ProfilePage: undefined;
 };
 
 
 
 export default function NotificationPage() {
-    const [alert, setAlert] = useState({
-        creationDate: "",
-        state: "",
-        description: "",
-    });
+    const [alert, setAlert] = useState<Array<{ creation_date: string, description: string, id: string, state: string, user_id: string }>>([]);
 
     useEffect(() => {
-            const fetchAlert = async () => {
-                try {
-                    const alertData = await getAlert();
-                    setAlert(alertData);
-                } catch (error) {
-                    console.error("Error al obtener alerta:", error);
-                }
+        const fetchAlert = async () => {
+            try {
+                const alertData = await getAlert();
+                setAlert(alertData);
+            } catch (error) {
+                console.error("Error al obtener alerta:", error);
             }
-            fetchAlert();
+        }
+        fetchAlert();
 
-        }, []);
+    }, []);
 
     return (
         <SafeAreaView style={styles.container}>
             <Text style={styles.header}>ALERTAS DEL USUARIO</Text>
 
-            
+            {alert.map((alert) => {
+                return (
+                    <View key={alert.id} style={styles.infoBox}>
 
-            <View style={styles.infoBox}>
-                <Text style={styles.label}>FECHA CRdsdEACION</Text>
-                <Text style={styles.label}>{alert[0].creationDate}</Text>
-            </View>
+                        <Text style={styles.label}>Descripción</Text>
+                        <Text style={styles.value}>{alert.description}</Text>
 
-            <View style={styles.infoBox}>
-                <Text style={styles.label}>ESTADO</Text>
-                <Text style={styles.label}>{alert.state}</Text>
-            </View>
+                        <Text style={styles.label}>Fecha de creación</Text>
+                        <Text style={styles.value}>{alert.creation_date}</Text>
 
-            <View style={styles.infoBox}>
-                <Text style={styles.label}>DESCRIPCION</Text>
-                <Text style={styles.label}>{alert.description}</Text>
-            </View>
+                        <Text style={styles.label}>Estado</Text>
+                        <Text style={styles.value}>{alert.state}</Text>
+                    </View>
+                )
+            })}
         </SafeAreaView>
     );
 }
