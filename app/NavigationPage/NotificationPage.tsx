@@ -12,24 +12,33 @@ type RootStackParamList = {
 
 export default function NotificationPage() {
     const [alert, setAlert] = useState({
-        user_id: 0,
-        creation_date: "",
+        creationDate: "",
         state: "",
         description: "",
     });
+
+    useEffect(() => {
+            const fetchAlert = async () => {
+                try {
+                    const alertData = await getAlert();
+                    setAlert(alertData);
+                } catch (error) {
+                    console.error("Error al obtener alerta:", error);
+                }
+            }
+            fetchAlert();
+
+        }, []);
 
     return (
         <SafeAreaView style={styles.container}>
             <Text style={styles.header}>ALERTAS DEL USUARIO</Text>
 
-            <View style={styles.infoBox}>
-                <Text style={styles.label}>USER ID</Text>
-                <Text style={styles.label}>{alert.user_id}</Text>
-            </View>
+            
 
             <View style={styles.infoBox}>
-                <Text style={styles.label}>FECHA CREACION</Text>
-                <Text style={styles.label}>{alert.creation_date}</Text>
+                <Text style={styles.label}>FECHA CRdsdEACION</Text>
+                <Text style={styles.label}>{alert[0].creationDate}</Text>
             </View>
 
             <View style={styles.infoBox}>
