@@ -131,3 +131,22 @@ export const saveDeviceFcmToken = async () => {
   const result = await response.json();
   return result
 }
+
+
+
+export const getAlert = async () => {
+  const response = await fetch(
+    (constants.expoConfig?.extra?.["API_ENDPOINT"] ?? "") + "/alert",
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + (await getToken()),
+      },
+    }
+  );
+  const notUser: { creationDate: Date,state:string,description:string } = await response.json()
+ // await storeId(userData.id)
+  //await storeName(userData.name)
+  return { ...notUser };
+};

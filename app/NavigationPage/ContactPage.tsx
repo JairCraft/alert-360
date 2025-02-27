@@ -27,7 +27,7 @@ export default function ProfileData() {
             if (res)
                 showToast("success", "Exito", "Contacto de Emergencia Agregado");
         } catch (error) {
-            showToast("success", "Exito", "Error al agregar");
+            showToast("error", "Error", "Error al agregar");
             console.log(error);
         }
     };
