@@ -18,6 +18,7 @@ import PassConfig from './NavigationPage/PassConfig';
 import ConfigPage from './NavigationPage/ConfigPage';
 import ContactPage from './NavigationPage/ContactPage';
 import NotificationPage from './NavigationPage/NotificationPage';
+import WeatherInfo from "./components/apiClima";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -34,6 +35,7 @@ const NavigationBar = () => {
             <Tab.Navigator
                 screenOptions={({ route }) => ({
                     headerShown: true,
+                    headerRight: () => <WeatherInfo />,
                     headerStyle: {
                         backgroundColor: '#00a9b2',
                         elevation: 0,
@@ -107,7 +109,7 @@ const MainNavigator = () => {
             <Stack.Screen name="ContactPage" component={ContactPage} options={{ headerShown: true }} />
             <Stack.Screen name="NotificationPage" component={NotificationPage} options={{ headerShown: true }} />
         </Stack.Navigator>
-    ); 
+    );
 };
 
 export default MainNavigator;  
